@@ -2,6 +2,7 @@
 //!
 //! Please check crate level documentation for more details and example.
 
+#[cfg(feature = "http")]
 use reqwest;
 
 use libc;
@@ -39,6 +40,7 @@ pub struct R2PipeTcp {
     socket_addr: SocketAddr,
 }
 
+#[cfg(feature = "http")]
 pub struct R2PipeHttp {
     host: String,
 }
@@ -64,6 +66,7 @@ pub enum R2Pipe {
     Pipe(R2PipeSpawn),
     Lang(R2PipeLang),
     Tcp(R2PipeTcp),
+    #[cfg(feature = "http")]
     Http(R2PipeHttp),
 }
 
@@ -141,6 +144,7 @@ impl R2Pipe {
             R2Pipe::Pipe(ref mut x) => x.cmd(cmd.trim()),
             R2Pipe::Lang(ref mut x) => x.cmd(cmd.trim()),
             R2Pipe::Tcp(ref mut x) => x.cmd(cmd.trim()),
+            #[cfg(feature = "http")]
             R2Pipe::Http(ref mut x) => x.cmd(cmd.trim()),
         }
     }
@@ -150,6 +154,7 @@ impl R2Pipe {
             R2Pipe::Pipe(ref mut x) => x.cmdj(cmd.trim()),
             R2Pipe::Lang(ref mut x) => x.cmdj(cmd.trim()),
             R2Pipe::Tcp(ref mut x) => x.cmdj(cmd.trim()),
+            #[cfg(feature = "http")]
             R2Pipe::Http(ref mut x) => x.cmdj(cmd.trim()),
         }
     }
@@ -159,6 +164,7 @@ impl R2Pipe {
             R2Pipe::Pipe(ref mut x) => x.close(),
             R2Pipe::Lang(ref mut x) => x.close(),
             R2Pipe::Tcp(ref mut x) => x.close(),
+            #[cfg(feature = "http")]
             R2Pipe::Http(ref mut x) => x.close(),
         }
     }
@@ -233,6 +239,7 @@ impl R2Pipe {
     }
 
     /// Creates a new R2PipeHttp
+    #[cfg(feature = "http")]
     pub fn http(host: &str) -> Result<R2Pipe, &'static str> {
         Ok(R2Pipe::Http(R2PipeHttp {
             host: host.to_string(),
@@ -347,6 +354,7 @@ impl R2PipeLang {
     }
 }
 
+#[cfg(feature = "http")]
 impl R2PipeHttp {
     pub fn cmd(&mut self, cmd: &str) -> Result<String, String> {
         let url = format!("http://{}/cmd/{}", self.host, cmd);

@@ -2,8 +2,8 @@
 name = "r2pipe"
 version = "0.5.0"
 authors = [
-  "pancake <pancake@nopcode.org>",
-  "sushant94 <sushant.dinesh94@gmail.com>"
+    "pancake <pancake@nopcode.org>",
+    "sushant94 <sushant.dinesh94@gmail.com>"
 ]
 edition = "2018"
 description = "Library to interact with radare2 using r2pipes."
@@ -12,7 +12,7 @@ description = "Library to interact with radare2 using r2pipes."
 repository = "https://github.com/radare/r2pipe.rs"
 documentation = "https://radare.github.io/r2pipe.rs/"
 
-keywords = ["r2", "debugger", "hex" , "editor", "radare"]
+keywords = ["r2", "debugger", "hex", "editor", "radare"]
 
 # Readme link
 readme = "README.md"
@@ -22,10 +22,11 @@ license = "MIT OR Apache-2.0"
 
 [features]
 default = []
+http = ["reqwest"]
 
 [dependencies]
 libc = "0.2.81"
 serde = "1.0.118"
 serde_json = "1.0.60"
 serde_derive = "1.0.118"
-reqwest = "0.9"
+reqwest = { version = "0.9", optional = true }
