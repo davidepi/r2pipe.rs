@@ -77,7 +77,7 @@ fn getenv(k: &str) -> i32 {
     }
 }
 
-fn process_result(res: Vec<u8>) -> Result<String> {
+pub fn process_result(res: Vec<u8>) -> Result<String> {
     let len = res.len();
     if len == 0 {
         Err(Error::EmptyResponse)

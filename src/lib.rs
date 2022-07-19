@@ -56,6 +56,7 @@
 #[macro_use]
 pub mod r2pipe;
 pub mod r2;
+pub mod r2async;
 
 mod error;
 pub use error::*;
@@ -65,5 +66,6 @@ pub type Result<T> = std::result::Result<T, error::Error>;
 
 // Rexport to bring it out one module.
 pub use self::r2::R2;
+pub use self::r2async::R2PipeAsync;
 pub use self::r2pipe::R2Pipe;
 pub use self::r2pipe::R2PipeSpawnOptions;
