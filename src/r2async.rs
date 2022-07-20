@@ -55,6 +55,7 @@ impl R2PipeAsync {
             .arg(path)
             .stdin(Stdio::piped())
             .stdout(Stdio::piped())
+            .kill_on_drop(true)
             .spawn()?;
 
         // If stdin/stdout is not available, hard error
@@ -93,16 +94,8 @@ impl R2PipeSpawnAsync {
         Ok(serde_json::from_str(&result)?)
     }
 
-    pub fn close(&mut self) {
-        let _ = self.cmd("q!");
-        if let Some(child) = &mut self.child {
-            let _ = child.wait();
-        }
-    }
-}
-
-impl Drop for R2PipeSpawnAsync {
-    fn drop(&mut self) {
+    /// Gracefully closes the spawned radare2 instance.
+    pub async fn close(&mut self) {
         let _ = self.cmd("q!");
         if let Some(child) = &mut self.child {
             let _ = child.wait();

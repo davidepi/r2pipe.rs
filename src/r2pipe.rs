@@ -316,10 +316,20 @@ impl R2PipeSpawn {
         self.child.take()
     }
 
+    /// Gracefully closes the spawned child (if not taken with [Self::take_child].
     pub fn close(&mut self) {
         let _ = self.cmd("q!");
         if let Some(child) = &mut self.child {
             let _ = child.wait();
+        }
+    }
+}
+
+impl Drop for R2PipeSpawn {
+    fn drop(&mut self) {
+        if let Some(child) = &mut self.child {
+            // cleanup code: send a SIGKILL to the child and ignore the result.
+            child.kill().ok();
         }
     }
 }
